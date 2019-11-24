@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mi77jp/sketch19-3-particle.git"
+    "url": "git@github.com:mi77jp/skech19-5-vision.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mi77jp/sketch19-3-particle/issues"
+    "url": "https://github.com/mi77jp/skech19-5-vision/issues"
   },
-  "homepage": "https://github.com/mi77jp/sketch19-3-particle#readme",
+  "homepage": "https://github.com/mi77jp/skech19-5-vision#readme",
   "dependencies": {},
   "devDependencies": {
     "gh-pages": "^2.1.1",
