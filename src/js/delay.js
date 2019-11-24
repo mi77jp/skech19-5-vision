@@ -113,7 +113,7 @@ const OrbitControls = controls.default(THREE);
     // 8. Append objects to DOM
     document.getElementById('wrapper').appendChild( renderer.domElement );
 
-    // 9. Color
+    // 9. Boxes
     boxes = [];//return;
     for (let y = 0; y < imageMatrix.length; ++y) {
       boxes[y] = [];
@@ -126,6 +126,7 @@ const OrbitControls = controls.default(THREE);
           , blending: THREE.AdditiveBlending
         });
         boxes[y][x].layers.r.mesh = new THREE.Mesh( boxes[y][x].layers.r.geometry, boxes[y][x].layers.r.material );
+        boxes[y][x].layers.r.mesh.position.set(0,0,0);
         scene.add( boxes[y][x].layers.r.mesh );
       }
     }
