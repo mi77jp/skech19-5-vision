@@ -3,27 +3,30 @@
   <head>
     <meta charset="UTF-8">
     <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
   </head>
   <body>
 
+    <!-- image resouces -->
+    <div class="img-wrapper" style="opacity:0;">
+
+      <div id="canvasPreview"></div>
+    </div>
+    <video id="video" width="160" height="120" autoplay></video>
+
+    <!-- render -->
+    <div class="wrapper" id="wrapper"></div>
+
+    <!-- ui -->
     <div class="mode-buttons">
-      <a href="#?mode=random">RANDOM</a>
-      <a href="#?mode=spiral">SPIRAL</a>
+      <a href="#?mode=flat">flat</a>
+      <a href="#?mode=deep">deep</a>
+      <a href="#?mode=frenzy">frenzy</a>
+      <a href="#?mode=cathedral">cathedral</a>
     </div>
 
-    <div class="content">
-      <div class="wrapper" id="wrapper"></div>
-      <div class="img-wrapper" style="opacity:0;">
-        <img id="particle" src="./images/particle.png" alt="">
-      </div>
-    </div>
+    <!-- scripts -->
+    <script src="./js/delay.js"></script>
 
-    <canvas id="canvas1" width="80" height="60" style="opacity:0;"></canvas>
-
-    <!--
-    <script src="./js/index.js"></script>
-    -->
-
-    <script src="./js/particles.js"></script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-//import '../scss/style.scss';
+import '../scss/style.scss';
 import * as THREE from 'three';
 import * as controls from 'three-orbit-controls';
 const OrbitControls = controls.default(THREE);
@@ -67,14 +67,15 @@ const OrbitControls = controls.default(THREE);
     scene = new THREE.Scene();
 
     // 2. Camera
-    camera = new THREE.PerspectiveCamera( 90, 1, 1, 2400);// (視野角, アスペクト比, near, far)
+    const ratio = window.innerWidth / window.innerHeight;
+    camera = new THREE.PerspectiveCamera( 90, ratio, 1, 2400);// (視野角, アスペクト比, near, far)
     camera.position.z = 500;
 
     // 3. Floor
-    floor = new THREE.GridHelper(10000, 80);
-    floor.material.color = new THREE.Color(0x999999);
-    floor.position.set(0, -300, 0);
-    scene.add(floor);
+    // floor = new THREE.GridHelper(10000, 80);
+    // floor.material.color = new THREE.Color(0x999999);
+    // floor.position.set(0, -300, 0);
+    // scene.add(floor);
 
     // 4. Materials
     material = new THREE.MeshBasicMaterial( {color: 0x999999, wireframe: true} );
@@ -90,8 +91,8 @@ const OrbitControls = controls.default(THREE);
     // 7. Renderer
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(
-      800,//window.innerWidth,
-      800//window.innerHeight
+      window.innerWidth,
+      window.innerHeight
     );
     renderer.shadowMap.enabled = true;
 
