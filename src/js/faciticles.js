@@ -5,6 +5,7 @@
 import '../scss/style.scss';
 import * as THREE from 'three';
 import * as controls from 'three-orbit-controls';
+import * as util from './modules/util';
 const OrbitControls = controls.default(THREE);
 
 (function () {
@@ -17,7 +18,18 @@ const OrbitControls = controls.default(THREE);
   const CIRCLE_SIZE = 100;
   const CONVERGENCE_COEFFICIENT = 7;
   let video, canvas, canvasCtx;
-  let scene, camera, renderer, material, floor, directionalLight, ambientLight;
+  let threeCore = {
+    scene: [],
+    camera: [],
+    renderer: [],
+    material: [],
+    floor: [],
+    directionalLight: [],
+    ambientLight: []
+  }
+  let renderer, material, floor, directionalLight, ambientLight;
+
+
   let boxes;
   let initialized = false;
   let imageMatrix;
@@ -88,20 +100,20 @@ const OrbitControls = controls.default(THREE);
     initialized = true;
 
     // Scene
-    scene = new THREE.Scene();
+    threeCore.scene = new THREE.Scene();
 
-    // Camera
-    camera = new THREE.PerspectiveCamera(
+    // Camera // (視野角, アスペクト比, near, far)
+    threeCore.camera = new THREE.PerspectiveCamera(
       VIEWING_ANGLE,
       window.innerWidth / window.innerHeight,
       1,
       2400
-    );// (視野角, アスペクト比, near, far)
-    camera.position.z = CAMERA_DISTANCE;
+    );
+    threeCore.camera.position.z = CAMERA_DISTANCE;
 
     // Lights
     ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-    scene.add(ambientLight);
+    threeCore.scene.add(ambientLight);
 
     // Renderer
     renderer = new THREE.WebGLRenderer();
@@ -125,12 +137,12 @@ const OrbitControls = controls.default(THREE);
         });
         boxes[y][x].layers.r.mesh = new THREE.Mesh( boxes[y][x].layers.r.geometry, boxes[y][x].layers.r.material );
         boxes[y][x].layers.r.mesh.position.set(0,0,0);
-        scene.add( boxes[y][x].layers.r.mesh );
+        threeCore.scene.add( boxes[y][x].layers.r.mesh );
       }
     }
 
     // Controls
-    // let controls = new OrbitControls(camera, renderer.domElement);
+    // let controls = new OrbitControls(threeCore.camera, renderer.domElement);
     // controls.enableDamping = true;
     // controls.dampingFactor = 0.25;
     // controls.enableZoom = false;
@@ -143,7 +155,7 @@ const OrbitControls = controls.default(THREE);
   }
 
   function run () {
-    switch (getParam('mode')) {
+    switch (util.getParam('mode')) {
       case 'frenzy':
         timer += 6;
       break;
@@ -162,7 +174,7 @@ const OrbitControls = controls.default(THREE);
       for (let x = 0; x < boxes[y].length; ++x) {
         let i = CANVAS_SIZE.w * y + x;//
         let k = (imageMatrix[y][x].r + imageMatrix[y][x].g + imageMatrix[y][x].b)/(255*3);
-        switch (getParam('mode')) {
+        switch (util.getParam('mode')) {
           case 'deep':
             targetValue = {
               x: BASE_POSITION[0] + GRID_SIZE * (boxes[y].length/-2 + x),
@@ -214,24 +226,13 @@ const OrbitControls = controls.default(THREE);
     }
 
     // camera
-
-    camera.lookAt(new THREE.Vector3(0, 0, 0));
-    camera.position.x = CAMERA_DISTANCE * Math.cos(radian);
-    camera.position.y = camera.position.y + (targetValue.cameraY - camera.position.y)/CONVERGENCE_COEFFICIENT;
-    camera.position.z = CAMERA_DISTANCE * Math.sin(radian);
+    threeCore.camera.lookAt(new THREE.Vector3(0, 0, 0));
+    threeCore.camera.position.x = CAMERA_DISTANCE * Math.cos(radian);
+    threeCore.camera.position.y = threeCore.camera.position.y + (targetValue.cameraY - threeCore.camera.position.y)/CONVERGENCE_COEFFICIENT;
+    threeCore.camera.position.z = CAMERA_DISTANCE * Math.sin(radian);
     //
-    renderer.render( scene, camera );
+    renderer.render( threeCore.scene, threeCore.camera );
     requestAnimationFrame( run );
-  }
-
-  function getParam(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
 
   initialize();
