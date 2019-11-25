@@ -47,7 +47,6 @@ const OrbitControls = controls.default(THREE);
     });
     mesh = new THREE.Points(geometry, material);
 
-    console.log(mesh);
     randomVertices = [];
     timer = 0;
     for (let i = 0; i < LENGTH; i++) {
